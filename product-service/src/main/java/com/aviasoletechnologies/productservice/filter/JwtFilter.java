@@ -1,10 +1,9 @@
 package com.aviasoletechnologies.productservice.filter;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -21,7 +20,8 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        final String authHeader = request.getHeader("Authorization");
+        final String token = request.getHeader("Authorization");
+
 
 
         try {
@@ -29,20 +29,32 @@ public class JwtFilter extends GenericFilterBean {
                 response.setStatus(HttpServletResponse.SC_OK);
                 filterChain.doFilter(request, response);
             } else {
-                if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                if (token == null) {
                     throw new ServletException("An exception occurred");
                 }
+
+                Claims claims = Jwts.parser().setSigningKey("codeusingjavaSecret").parseClaimsJws(token).getBody();
+                request.setAttribute("claims", claims);
+                filterChain.doFilter(request, response);
             }
-            final String token = authHeader.substring(7);
-            Claims claims = Jwts.parser().setSigningKey("codeusingjavaSecret").parseClaimsJws(token).getBody();
-            request.setAttribute("claims", claims);
-            filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException expiredJwtException) {
-            System.out.println("JWT expired");
-            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Jwt Expired");
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (ExpiredJwtException e) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(),"JWT has expired");
+        } catch (UnsupportedJwtException e) {
+            throw new RuntimeException(e);
+        } catch (MalformedJwtException e) {
+            throw new RuntimeException(e);
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
         }
 
+
     }
-
-
 }

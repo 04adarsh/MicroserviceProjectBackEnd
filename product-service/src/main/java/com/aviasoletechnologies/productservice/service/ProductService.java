@@ -1,13 +1,13 @@
 package com.aviasoletechnologies.productservice.service;
 
+import com.aviasoletechnologies.productservice.dto.ProductDto;
 import com.aviasoletechnologies.productservice.model.Product;
 
 import java.util.List;
 public interface ProductService {
 
-    Product createProduct(Product product);
-    Product updateProduct(Long productId,Product product);
-
+    Product createProduct(ProductDto productDto);
+    Product updateProduct(Long productId,ProductDto productDto);
     List<Product> getALlProducts();
     void deleteProduct(Long productId);
 

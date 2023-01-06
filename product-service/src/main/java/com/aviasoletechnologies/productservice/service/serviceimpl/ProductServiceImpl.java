@@ -1,7 +1,9 @@
 package com.aviasoletechnologies.productservice.service.serviceimpl;
 
+import com.aviasoletechnologies.productservice.dto.ProductDto;
 import com.aviasoletechnologies.productservice.exception.CustomException;
 import com.aviasoletechnologies.productservice.model.Product;
+import com.aviasoletechnologies.productservice.repository.CategoryRepository;
 import com.aviasoletechnologies.productservice.repository.ProductRepository;
 import com.aviasoletechnologies.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +16,34 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product createProduct(Product product) {
-        Product productResp = this.productRepository.getProductByProductName(product.getProductName());
-        if (productResp != null) {
-            throw new CustomException("product id already exists..");
-        }
 
-        return this.productRepository.save(product);
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    public Product getProduct(ProductDto productDto){
+        Product product=new Product();
+        product.setProductName(productDto.getProductName());
+        product.setProductDescription(productDto.getProductDescription());
+        product.setProductImageUrl(productDto.getProductImageUrl());
+        product.setQuantity(productDto.getQuantity());
+        product.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
+        return product;
+    }
+
+    public Product createProduct(ProductDto productDto) {
+       Product product=new Product();
+       product=this.getProduct(productDto);
+       return this.productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) {
-        Product productResp=this.productRepository.findById(productId)
-                .orElseThrow(()-> new  CustomException("product does not exist with id"+productId));
-        productResp.setProductName(product.getProductName());
-        productResp.setProductDescription(product.getProductDescription());
+    public Product updateProduct(Long productId, ProductDto productDto) {
+       Product  productResp=this.productRepository.findById(productId).orElseThrow(()->new CustomException("product not found with id: "+productId));
+        productResp.setProductName(productDto.getProductName());
+        productResp.setProductDescription(productDto.getProductDescription());
+        productResp.setProductImageUrl(productDto.getProductImageUrl());
+        productResp.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
+        productResp.setQuantity(productDto.getQuantity());
         return this.productRepository.save(productResp);
     }
 
