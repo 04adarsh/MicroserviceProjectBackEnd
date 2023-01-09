@@ -3,6 +3,7 @@ package com.aviasoletechnologies.productservice.model;
 
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -14,7 +15,15 @@ public class Product {
     private String productName;
     private String productDescription;
 
-    private String productImageUrl;
+//    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+//    @JoinTable(name="product_images",
+//        joinColumns = {@JoinColumn(name="product_id")},
+//        inverseJoinColumns = {@JoinColumn(name = "image_id")}
+//    )
+//    private Set<ProductImage> productImage;
+
+
+    private String imageName;
 
 
     @ManyToOne
@@ -25,11 +34,10 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long productId, String productName, String productDescription, String productImageUrl, Category category, Long quantity) {
-        this.productId = productId;
+    public Product(String productName, String productDescription, String imageName, Category category, Long quantity) {
         this.productName = productName;
         this.productDescription = productDescription;
-        this.productImageUrl = productImageUrl;
+        this.imageName = imageName;
         this.category = category;
         this.quantity = quantity;
     }
@@ -58,12 +66,12 @@ public class Product {
         this.productDescription = productDescription;
     }
 
-    public String getProductImageUrl() {
-        return productImageUrl;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public Category getCategory() {
@@ -88,7 +96,7 @@ public class Product {
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
                 ", productDescription='" + productDescription + '\'' +
-                ", productImageUrl='" + productImageUrl + '\'' +
+                ", imageName=" + imageName +
                 ", category=" + category +
                 ", quantity=" + quantity +
                 '}';

@@ -1,14 +1,14 @@
 package com.aviasoletechnologies.productservice.dto;
 
-import com.sun.istack.NotNull;
 
+import com.sun.istack.NotNull;
 public class ProductDto {
 
     private @NotNull Long productId;
     private @NotNull String productName;
     private @NotNull String productDescription;
 
-    private @NotNull String productImageUrl;
+    private String productImages;
 
     private @NotNull String categoryName;
 
@@ -17,11 +17,11 @@ public class ProductDto {
     public ProductDto() {
     }
 
-    public ProductDto(Long productId, String productName, String productDescription, String productImageUrl, String categoryName, Long quantity) {
+    public ProductDto(Long productId, String productName, String productDescription, String productImages, String categoryName, Long quantity) {
         this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
-        this.productImageUrl = productImageUrl;
+        this.productImages = productImages;
         this.categoryName = categoryName;
         this.quantity = quantity;
     }
@@ -50,12 +50,12 @@ public class ProductDto {
         this.productDescription = productDescription;
     }
 
-    public String getProductImageUrl() {
-        return productImageUrl;
+    public String getProductImages() {
+        return productImages;
     }
 
-    public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
+    public void setProductImage(String productImages) {
+        this.productImages = productImages;
     }
 
     public String getCategoryName() {
@@ -80,7 +80,7 @@ public class ProductDto {
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
                 ", productDescription='" + productDescription + '\'' +
-                ", productImageUrl='" + productImageUrl + '\'' +
+                ", productImages=" + productImages +
                 ", categoryName='" + categoryName + '\'' +
                 ", quantity=" + quantity +
                 '}';

@@ -24,7 +24,6 @@ public class ProductServiceImpl implements ProductService {
         Product product=new Product();
         product.setProductName(productDto.getProductName());
         product.setProductDescription(productDto.getProductDescription());
-        product.setProductImageUrl(productDto.getProductImageUrl());
         product.setQuantity(productDto.getQuantity());
         product.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
         return product;
@@ -41,7 +40,6 @@ public class ProductServiceImpl implements ProductService {
        Product  productResp=this.productRepository.findById(productId).orElseThrow(()->new CustomException("product not found with id: "+productId));
         productResp.setProductName(productDto.getProductName());
         productResp.setProductDescription(productDto.getProductDescription());
-        productResp.setProductImageUrl(productDto.getProductImageUrl());
         productResp.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
         productResp.setQuantity(productDto.getQuantity());
         return this.productRepository.save(productResp);

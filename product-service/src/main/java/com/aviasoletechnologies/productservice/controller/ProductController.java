@@ -7,9 +7,13 @@ import com.aviasoletechnologies.productservice.repository.ProductRepository;
 import com.aviasoletechnologies.productservice.service.serviceimpl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.*;
 
+import java.util.HashSet;
 import java.util.List;
 @CrossOrigin(origins = {"http://localhost:4200","*"},allowedHeaders = {"Origin", "Access-Control-Allow-Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"})
 @RestController
@@ -21,15 +25,39 @@ public class ProductController {
     private ProductRepository productRepository;
 
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createProduct(@RequestBody ProductDto product) {
-        Product productResp=this.productService.createProduct(product);
-        if(productResp==null){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        return ResponseEntity.ok(productResp);
-    }
+//    @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> createProduct(@RequestPart("product") ProductDto product,
+//                                           @RequestPart("imageFile")MultipartFile[] multipartFiles) {
+//        try{
+//            Set<ProductImage> images=uploadImages(multipartFiles);
+//            product.setProductImage(images);
+//            Product productResp=this.productService.createProduct(product);
+//            return ResponseEntity.ok(productResp);
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//        return null;
+//    }
 
+//        public Set<ProductImage> uploadImages(MultipartFile[] multipartFiles) throws Exception{
+//            Set<ProductImage> images=new HashSet<>();
+//            for(MultipartFile file:multipartFiles){
+//                ProductImage productImage=new ProductImage(
+//                        file.getOriginalFilename(),
+//                        file.getContentType(),
+//                        file.getBytes()
+//                );
+//                images.add(productImage);
+//            }
+//            return images;
+//    }
+//
+
+    @PostMapping("/create")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDto productDto){
+        Product product=this.productService.createProduct(productDto);
+        return ResponseEntity.ok(product);
+    }
     @GetMapping("/getAll")
     public ResponseEntity<List<Product>> getALlProducts(){
         List<Product> productList=this.productService.getALlProducts();
