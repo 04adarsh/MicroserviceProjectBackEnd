@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
         Product product=new Product();
         product.setProductName(productDto.getProductName());
         product.setProductDescription(productDto.getProductDescription());
+        product.setImageName(productDto.getProductImages());
         product.setQuantity(productDto.getQuantity());
         product.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
         return product;
