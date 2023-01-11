@@ -5,6 +5,7 @@ package com.aviasoletechnologies.productservice.model;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-@TypeDef(name = "json", typeClass = "")
+@TypeDef(name = "json", typeClass = JsonType.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,8 +28,9 @@ public class Product {
 //        inverseJoinColumns = {@JoinColumn(name = "image_id")}
 //    )
 //    private Set<ProductImage> productImage;
-@Column(columnDefinition = "JSON") // Only if Database has JSON type else this line can be removed
-private String imageName;
+@Type(type = "json")
+@Column(columnDefinition = "json") // Only if Database has JSON type else this line can be removed
+private JsonNode imageName;
 
 
 
@@ -43,7 +45,7 @@ private String imageName;
     public Product() {
     }
 
-    public Product(String productName, String productDescription, String imageName, Category category, Long quantity) {
+    public Product(String productName, String productDescription, JsonNode imageName, Category category, Long quantity) {
         this.productName = productName;
         this.productDescription = productDescription;
         this.imageName = imageName;
@@ -75,11 +77,11 @@ private String imageName;
         this.productDescription = productDescription;
     }
 
-    public String getImageName() {
+    public JsonNode getImageName() {
         return imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImageName(JsonNode imageName) {
         this.imageName = imageName;
     }
 

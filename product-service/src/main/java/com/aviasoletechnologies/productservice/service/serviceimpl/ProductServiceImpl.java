@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import springfox.documentation.spring.web.json.Json;
+
 import java.util.List;
 
 @Service
@@ -29,9 +31,9 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(productDto.getProductName());
         product.setProductDescription(productDto.getProductDescription());
         product.setQuantity(productDto.getQuantity());
-        String jsonString=productDto.getProductImages();
+        String imageNames=productDto.getProductName();
         ObjectMapper objectMapper=new ObjectMapper();
-        JsonNode jsonNode=objectMapper.readTree(jsonString);
+        JsonNode jsonNode=objectMapper.readTree(imageNames);
         product.setImageName(jsonNode);
         product.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
         return product;
