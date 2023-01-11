@@ -2,6 +2,11 @@ package com.aviasoletechnologies.productservice.dto;
 
 
 import com.sun.istack.NotNull;
+import springfox.documentation.spring.web.json.Json;
+
+import javax.persistence.Column;
+import java.util.List;
+
 public class ProductDto {
 
     private @NotNull Long productId;
@@ -54,7 +59,7 @@ public class ProductDto {
         return productImages;
     }
 
-    public void setProductImage(String productImages) {
+    public void setProductImages(String productImages) {
         this.productImages = productImages;
     }
 

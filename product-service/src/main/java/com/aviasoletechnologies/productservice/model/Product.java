@@ -2,11 +2,17 @@ package com.aviasoletechnologies.productservice.model;
 
 
 
+
+
+import com.fasterxml.jackson.databind.JsonNode;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
 @Table(name = "products")
+@TypeDef(name = "json", typeClass = "")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,15 +27,18 @@ public class Product {
 //        inverseJoinColumns = {@JoinColumn(name = "image_id")}
 //    )
 //    private Set<ProductImage> productImage;
+@Column(columnDefinition = "JSON") // Only if Database has JSON type else this line can be removed
+private String imageName;
 
-
-    private String imageName;
 
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     private Long quantity;
+
+
+
 
     public Product() {
     }
@@ -101,4 +110,6 @@ public class Product {
                 ", quantity=" + quantity +
                 '}';
     }
+
+
 }

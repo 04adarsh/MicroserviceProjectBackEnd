@@ -6,9 +6,13 @@ import com.aviasoletechnologies.productservice.model.Product;
 import com.aviasoletechnologies.productservice.repository.CategoryRepository;
 import com.aviasoletechnologies.productservice.repository.ProductRepository;
 import com.aviasoletechnologies.productservice.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -20,20 +24,29 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Product getProduct(ProductDto productDto){
+    public Product getProduct(ProductDto productDto) throws JsonProcessingException {
         Product product=new Product();
         product.setProductName(productDto.getProductName());
         product.setProductDescription(productDto.getProductDescription());
-        product.setImageName(productDto.getProductImages());
         product.setQuantity(productDto.getQuantity());
+        String jsonString=productDto.getProductImages();
+        ObjectMapper objectMapper=new ObjectMapper();
+        JsonNode jsonNode=objectMapper.readTree(jsonString);
+        product.setImageName(jsonNode);
         product.setCategory(this.categoryRepository.findByCategoryName(productDto.getCategoryName()));
         return product;
     }
 
     public Product createProduct(ProductDto productDto) {
        Product product=new Product();
-       product=this.getProduct(productDto);
-       return this.productRepository.save(product);
+
+        try {
+            product=this.getProduct(productDto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return this.productRepository.save(product);
     }
 
     @Override
@@ -57,5 +70,7 @@ public class ProductServiceImpl implements ProductService {
     Product productResp=this.productRepository.findById(productId).orElseThrow(()-> new CustomException("product does not exist with id"+productId));
     this.productRepository.delete(productResp);
     }
+
+
 }
 
