@@ -1,19 +1,13 @@
 package com.aviasoletechnologies.productservice.model;
 
 
-
-
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.vladmihalcea.hibernate.type.json.JsonType;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-@TypeDef(name = "json", typeClass = JsonType.class)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,9 +22,8 @@ public class Product {
 //        inverseJoinColumns = {@JoinColumn(name = "image_id")}
 //    )
 //    private Set<ProductImage> productImage;
-@Type(type = "json")
-@Column(columnDefinition = "json") // Only if Database has JSON type else this line can be removed
-private JsonNode imageName;
+    @Column(columnDefinition = "text")
+    private String imageName;
 
 
 
@@ -45,7 +38,7 @@ private JsonNode imageName;
     public Product() {
     }
 
-    public Product(String productName, String productDescription, JsonNode imageName, Category category, Long quantity) {
+    public Product(String productName, String productDescription, String imageName, Category category, Long quantity) {
         this.productName = productName;
         this.productDescription = productDescription;
         this.imageName = imageName;
@@ -77,11 +70,12 @@ private JsonNode imageName;
         this.productDescription = productDescription;
     }
 
-    public JsonNode getImageName() {
-        return imageName;
+    public JSONObject getImageName() {
+        JSONObject jsonObject =(JSONObject) JSONValue.parse(this.imageName);
+      return jsonObject;
     }
 
-    public void setImageName(JsonNode imageName) {
+    public void setImageName(String imageName) {
         this.imageName = imageName;
     }
 

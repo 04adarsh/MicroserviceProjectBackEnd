@@ -6,12 +6,9 @@ import com.aviasoletechnologies.productservice.model.Product;
 import com.aviasoletechnologies.productservice.repository.ProductRepository;
 import com.aviasoletechnologies.productservice.service.serviceimpl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.util.*;
+
 
 import java.util.HashSet;
 import java.util.List;
@@ -77,6 +74,12 @@ public class ProductController {
         this.productService.deleteProduct(id);
         DeleteResponse deleteResponse=new DeleteResponse("Product Deleted Successfully");
         return ResponseEntity.ok(deleteResponse);
+    }
+
+    @GetMapping("/get/{getId}")
+    public ResponseEntity<Product> getProductById(@PathVariable("getId") Long getId){
+        Product product=this.productService.getProductById(getId);
+        return ResponseEntity.ok(product);
     }
 
 }
