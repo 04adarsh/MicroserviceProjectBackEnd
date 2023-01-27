@@ -1,8 +1,10 @@
 package com.aviasoletechnologies.authenticationservice.dto;
 
+import com.aviasoletechnologies.authenticationservice.model.Address;
 import com.aviasoletechnologies.authenticationservice.model.Role;
 import com.sun.istack.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +19,18 @@ public class UserResponseDto {
     private String email;
 
     private Set<String> roles;
+
+    public List<AddressDTO> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<AddressDTO> address) {
+        this.address = address;
+    }
+
+    private List<AddressDTO> address=new ArrayList<>();
+
+
 
     public Long getId() {
         return id;

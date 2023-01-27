@@ -1,5 +1,6 @@
 package com.aviasoletechnologies.authenticationservice.jwtrequest;
 
+import com.aviasoletechnologies.authenticationservice.model.Address;
 import com.sun.istack.NotNull;
 
 import java.util.Set;
@@ -15,6 +16,16 @@ public class SignupRequest {
 
     @NotNull
     private String password;
+
+//    private Address address;
+//
+//    public Address getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 
     public String getUsername() {
         return username;

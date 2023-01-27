@@ -4,13 +4,18 @@ import com.aviasoletechnologies.authenticationservice.dto.UserResponseDto;
 import com.aviasoletechnologies.authenticationservice.exception.CustomException;
 import com.aviasoletechnologies.authenticationservice.jwtrequest.SignupRequest;
 import com.aviasoletechnologies.authenticationservice.jwtresponse.SignupResponse;
+import com.aviasoletechnologies.authenticationservice.model.Address;
 import com.aviasoletechnologies.authenticationservice.model.Role;
 import com.aviasoletechnologies.authenticationservice.model.User;
 import com.aviasoletechnologies.authenticationservice.repository.RefreshTokenRepository;
 import com.aviasoletechnologies.authenticationservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,12 +39,16 @@ public class UserService {
         for(Role role:roles){
             rolesString.add(role.getName().name());
         }
+
         userResponseDto.setRoles(rolesString);
 
         return userResponseDto;
     }
 
 
+
+
+//    @Transactional
 //    public void deleteUser(Long id){
 //        User user=this.userRepository.findById(id).orElseThrow(()-> new CustomException("User not found with id"+id));
 //        this.refreshTokenRepository.deleteByUser(user);

@@ -2,15 +2,9 @@ package com.aviasoletechnologies.productservice.helper;
 
 
 import com.aviasoletechnologies.productservice.dto.ImageResp;
-
-import com.aviasoletechnologies.productservice.exception.CustomException;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-
 import java.io.*;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,7 +18,7 @@ import java.util.List;
 public class FileUploadHelper {
 
     public final String
-            UPLOAD_DIR = "C:\\Users\\LENOVO\\Desktop\\Adarsh Projects\\Back-end\\product-service\\src\\main\\resources\\static\\images";
+            UPLOAD_DIR = "C:\\Users\\LENOVO\\Desktop\\Adarsh Projects\\JAVA\\Back-end\\product-service\\src\\main\\resources\\static\\images";
 
 
     public ImageResp uploadFile(MultipartFile multipartFile) {
@@ -60,7 +54,7 @@ public class FileUploadHelper {
                 String randomAppend = uuid.toString();
                 String fileName = randomAppend + multipartFile.getOriginalFilename();
 
-                Path saveTo = Paths.get(UPLOAD_DIR + "\\" + fileName);
+                Path saveTo = Paths.get(UPLOAD_DIR + File.separator  + fileName);
                 try {
                     Files.copy(multipartFile.getInputStream(), saveTo);
                     respList.add(fileName);
@@ -83,13 +77,13 @@ public class FileUploadHelper {
     }
 
 
-    public String deleteFile(String path, String fileName) throws IOException {
-
-            String fullPath = path + File.separator + fileName;
-            File file = new File(fullPath);
-            FileUtils.forceDelete(file);
-            return fileName;
-
-
-    }
+//    public String deleteFile(String path, String fileName) throws IOException {
+//
+//            String fullPath = path + File.separator + fileName;
+//            File file = new File(fullPath);
+//            FileUtils.forceDelete(file);
+//            return fileName;
+//
+//
+//    }
 }

@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,6 +34,17 @@ public class ProductServiceApplication {
 			}
 		};
 	}
+
+//	@Bean
+//	public RestTemplate restTemplate(){
+//		return new RestTemplate();
+//	}
+
+//	ResponseEntity<User> responseEntity = restTemplate
+//			.getForEntity("http://localhost:8080/api/departments/" + user.getDepartmentId(),
+//					User.class);
+//
+//	User user = responseEntity.getBody();
 
 //	@Bean
 //	CorsConfigurationSource corsConfigurationSource() {

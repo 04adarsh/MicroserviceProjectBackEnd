@@ -5,6 +5,7 @@ package com.aviasoletechnologies.authenticationservice.model;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,11 +28,17 @@ public class User {
     @NotNull
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade =CascadeType.ALL)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE,orphanRemoval = true)
+    private List<Address> addresss;
 
     public User() {
     }
@@ -40,6 +47,14 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public List<Address> getAddresss() {
+        return addresss;
+    }
+
+    public void setAddresss(List<Address> addresss) {
+        this.addresss = addresss;
     }
 
     public Long getId() {

@@ -28,7 +28,7 @@ public class FileUploadController {
     @Autowired
     private FileUploadHelper fileUploadHelper;
     public final String
-            DIR = "C:\\Users\\LENOVO\\Desktop\\Adarsh Projects\\Back-end\\product-service\\src\\main\\resources\\static\\images";
+            DIR = "C:\\Users\\LENOVO\\Desktop\\Adarsh Projects\\JAVA\\Back-end\\product-service\\src\\main\\resources\\static\\images";
 
     @PostMapping("/upload-file")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
@@ -66,15 +66,15 @@ public class FileUploadController {
         }
     }
 
-    @DeleteMapping("deleteImage/{imageName}")
-    public ResponseEntity<String> deleteImage(@PathVariable("imageName") String imageName) {
-
-      try{
-          String fileName=this.fileUploadHelper.deleteFile(DIR,imageName);
-          return ResponseEntity.ok(fileName);
-
-      } catch (IOException e) {
-          throw new RuntimeException(e);
-      }
-    }
+//    @DeleteMapping("deleteImage/{imageName}")
+//    public ResponseEntity<String> deleteImage(@PathVariable("imageName") String imageName) {
+//
+//      try{
+//          String fileName=this.fileUploadHelper.deleteFile(DIR,imageName);
+//          return ResponseEntity.ok(fileName);
+//
+//      } catch (IOException e) {
+//          throw new RuntimeException(e);
+//      }
+//    }
 }
